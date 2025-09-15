@@ -1,3 +1,10 @@
+scalar DateTime
+
+type Coordinates {
+    latitude: Float!
+    longitude: Float!
+}
+
 interface Entity {
     # Unique identifier for the entity, in the UUID format, eg. "27cbc88d-beef-4104-9046-b7855cee86d1"
     id: ID!
@@ -13,10 +20,36 @@ type Route implements Entity{
     id: ID!
     name: String!
     trains: [Train!]!
+    points: [RoutePoint!]!
 }
 
 type GetRoutesQuery {
     routes: [Route!]!
+}
+
+type RoutePoint implements Entity {
+    id: ID!
+    name: String!
+    coordinates: Coordinates!
+}
+
+type CourseStop implements Entity {
+    id: ID!
+    name: String!
+    arrivalTime: DateTime!
+    departureTime: DateTime!
+    point: RoutePoint!
+}
+
+type Course implements Entity {
+    id: ID!
+    name: String!
+    description: String
+    startDate: DateTime!
+    endDate: DateTime!
+    stops: [CourseStop!]!
+    route: Route!
+    train: Train!
 }
 
 schema {
