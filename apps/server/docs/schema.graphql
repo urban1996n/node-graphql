@@ -1,0 +1,24 @@
+interface Entity {
+    # Unique identifier for the entity, in the UUID format, eg. "27cbc88d-beef-4104-9046-b7855cee86d1"
+    id: ID!
+}
+
+# GraphQL schema definition for Train type, base comment
+type Train implements Entity {
+    id: ID!
+    name: String!
+}
+
+type Route implements Entity{
+    id: ID!
+    name: String!
+    trains: [Train!]!
+}
+
+type GetRoutesQuery {
+    routes: [Route!]!
+}
+
+schema {
+    query: GetRoutesQuery
+}
