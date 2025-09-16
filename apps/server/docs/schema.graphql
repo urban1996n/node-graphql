@@ -1,0 +1,62 @@
+scalar DateTime
+
+type Coordinates {
+    latitude: Float!
+    longitude: Float!
+}
+
+interface Entity {
+    "Unique identifier for the entity, in the UUID format, eg. 27cbc88d-beef-4104-9046-b7855cee86d1"
+    id: ID!
+}
+
+"GraphQL schema definition for Train type, base comment"
+type Train implements Entity {
+    "Unique identifier for the entity, in the UUID format, eg. 27cbc88d-beef-4104-9046-b7855cee86d1"
+    id: ID!
+    name: String!
+}
+
+"GraphQL schema definition for Route type, base comment"
+type Route implements Entity{
+    id: ID!
+    name: String!
+    trains: [Train!]!
+    points: [RoutePoint!]!
+}
+
+"Get all routes query"
+type Query {
+    "All available trains for current user"
+    trains: [Train!]!
+    "A specific train by its ID"
+    train(id: ID!): Train
+}
+
+"A point on a route, eg a station or a junction"
+type RoutePoint implements Entity {
+    id: ID!
+    name: String!
+    coordinates: Coordinates!
+}
+
+"A stop on a course, associated with a route point"
+type CourseStop implements Entity {
+    id: ID!
+    name: String!
+    arrivalTime: DateTime!
+    departureTime: DateTime!
+    point: RoutePoint!
+}
+
+"A course represents a scheduled journey of a train along a route, including its stops and timings"
+type Course implements Entity {
+    id: ID!
+    name: String!
+    description: String
+    startDate: DateTime!
+    endDate: DateTime!
+    stops: [CourseStop!]!
+    route: Route!
+    train: Train!
+}

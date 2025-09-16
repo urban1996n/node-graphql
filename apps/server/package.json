@@ -6,17 +6,27 @@
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "build": "tsup",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "run": "tsup && node dist/index.js",
+    "codegen": "graphql-codegen",
+    "codegen:watch": "graphql-codegen --watch"
   },
   "dependencies": {
+    "@apollo/server": "^5.0.0",
+    "@as-integrations/express5": "^1.1.2",
     "cors": "^2.8.5",
-    "express": "^4.21.2",
+    "express": "^5.1.0",
+    "graphql": "^16.11.0",
     "morgan": "^1.10.1"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^6.0.0",
+    "@graphql-codegen/typescript": "^5.0.0",
+    "@graphql-codegen/typescript-resolvers": "^5.0.0",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
     "@types/morgan": "^1.9.10",
+    "@types/node": "^24.4.0",
     "tsup": "^8.0.1",
     "tsx": "^4.7.0",
     "typescript": "^5.5.0"

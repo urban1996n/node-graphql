@@ -1,4 +1,7 @@
 {
   "extends": "../../tsconfig.json",
-  "include": ["src", "tsup.config.ts"]
+  "include": ["src", "tsup.config.ts"],
+  "moduleResolution": "node",
+  "esModuleInterop": true,
+  "types": ["node", "express", "cors", "morgan"]
 }
