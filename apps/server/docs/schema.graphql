@@ -6,16 +6,18 @@ type Coordinates {
 }
 
 interface Entity {
-    # Unique identifier for the entity, in the UUID format, eg. "27cbc88d-beef-4104-9046-b7855cee86d1"
+    "Unique identifier for the entity, in the UUID format, eg. 27cbc88d-beef-4104-9046-b7855cee86d1"
     id: ID!
 }
 
-# GraphQL schema definition for Train type, base comment
+"GraphQL schema definition for Train type, base comment"
 type Train implements Entity {
+    "Unique identifier for the entity, in the UUID format, eg. 27cbc88d-beef-4104-9046-b7855cee86d1"
     id: ID!
     name: String!
 }
 
+"GraphQL schema definition for Route type, base comment"
 type Route implements Entity{
     id: ID!
     name: String!
@@ -23,16 +25,22 @@ type Route implements Entity{
     points: [RoutePoint!]!
 }
 
-type GetRoutesQuery {
-    routes: [Route!]!
+"Get all routes query"
+type Query {
+    "All available trains for current user"
+    trains: [Train!]!
+    "A specific train by its ID"
+    train(id: ID!): Train
 }
 
+"A point on a route, eg a station or a junction"
 type RoutePoint implements Entity {
     id: ID!
     name: String!
     coordinates: Coordinates!
 }
 
+"A stop on a course, associated with a route point"
 type CourseStop implements Entity {
     id: ID!
     name: String!
@@ -41,6 +49,7 @@ type CourseStop implements Entity {
     point: RoutePoint!
 }
 
+"A course represents a scheduled journey of a train along a route, including its stops and timings"
 type Course implements Entity {
     id: ID!
     name: String!
@@ -50,8 +59,4 @@ type Course implements Entity {
     stops: [CourseStop!]!
     route: Route!
     train: Train!
-}
-
-schema {
-    query: GetRoutesQuery
 }
