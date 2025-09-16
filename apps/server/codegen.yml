@@ -1,0 +1,14 @@
+schema: ./docs/schema.graphql
+generates:
+  ./src/__generated__/graphql.ts:
+    plugins:
+      - typescript
+      - typescript-resolvers
+    config:
+      scalars:
+        DateTime: string
+      avoidOptionals:
+        field: true
+        inputValue: false
+        object: true
+      enumsAsTypes: true
