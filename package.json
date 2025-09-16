@@ -1,7 +1,9 @@
 {
     "name": "node-graphql",
     "private": true,
-    "workspaces": ["apps/*"],
+    "workspaces": [
+        "apps/*"
+    ],
     "version": "1.0.0",
     "description": "Support ticketing system for commonly used ticketing services",
     "main": "index.js",
@@ -13,7 +15,8 @@
         "build:shared": "npm --workspace apps/shared run build",
         "build:client": "npm --workspace apps/client run build",
         "build:server": "npm --workspace apps/server run build",
-        "start": "npm --workspace apps/server run start"
+        "start": "npm --workspace apps/server run start",
+        "run": "bash ./docker/start.sh"
     },
     "repository": {
         "type": "git",
@@ -30,7 +33,9 @@
         "jest": "^30.0.0",
         "next": "^15.3.3",
         "react": "^19.1.0",
-        "react-dom": "^19.1.0"
+        "react-dom": "^19.1.0",
+        "reflect-metadata": "^0.2.2",
+        "tsyringe": "^4.10.0"
     },
     "devDependencies": {
         "npm-run-all": "^4.1.5",
