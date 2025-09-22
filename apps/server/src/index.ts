@@ -1,43 +1,70 @@
-import express, { Request, Response, NextFunction } from 'express'
-import morgan from 'morgan'
-import cors from 'cors'
-import path from 'node:path'
-import { fileURLToPath } from 'node:url'
+import { ApolloServer } from '@apollo/server';
+import { expressMiddleware } from '@as-integrations/express5';
+import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer'
+import express from 'express';
+import http from 'http';
+import cors from 'cors';
+import { readFileSync } from 'fs';
+import {join} from 'path';
+import {Resolvers} from "apps/server/src/__generated__/graphql";
+import "reflect-metadata";
+import {container} from "tsyringe";
+import {
+    TrainQueryResolver
+} from "apps/server/src/modules/trains/infrastructure/presentation/resolvers/Train/TrainQueryResolver";
+import {Kernel} from "apps/server/src/modules/trains/infrastructure/kernel/Kernel";
+import * as TrainServices from "apps/server/src/modules/trains/application/services";
+import * as SharedServices from "apps/server/src/modules/shared/application/services";
+import {
+    TrainMutationResolver
+} from "apps/server/src/modules/trains/infrastructure/presentation/resolvers/Train/TrainMutationResolver";
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
-const app = express()
+import * as ResolverServices from "apps/server/src/modules/trains/infrastructure/presentation/resolvers/services";
 
-app.use(morgan('dev'))
-app.use(cors())
-app.use(express.json())
+const kernel = new Kernel();
 
-// --- API ---
-app.get(
-    '/api/health',
-    (_req: Request, res: Response): void => {
-      res.status(200).send('ok')
+kernel.addLoader(TrainServices);
+kernel.addLoader(SharedServices);
+kernel.addLoader(ResolverServices);
+kernel.setup(container);
+
+await kernel.register();
+await kernel.boot();
+
+const trainQueryResolver = container.resolve<TrainQueryResolver>(TrainQueryResolver);
+const trainMutationResolver = container.resolve<TrainMutationResolver>(TrainMutationResolver);
+
+// A map of functions which return data for the schema.
+const resolvers: Resolvers = {
+    Query: {
+        trains: () => trainQueryResolver.getTrains(),
+        train: (parent, args) => trainQueryResolver.getTrain(args.id)
+    },
+    Mutation: {
+        createTrain: (parent, args) => trainMutationResolver.createTrain(args.name)
     }
-)
+};
 
-const clientDist: string = path.resolve(__dirname, '../../client/dist')
+const schemaLocation = join('docs', 'schema.graphql');
 
-app.use(express.static(clientDist))
+const typeDefs = readFileSync(schemaLocation, 'utf8');
+const app = express();
+const httpServer = http.createServer(app);
 
-// --- SPA fallback ---
-app.get(
-    '*',
-    (req: Request, res: Response, next: NextFunction): void => {
-      if (req.path.startsWith('/api')) return next()
-      res.sendFile(path.join(clientDist, 'index.html'))
-    }
-)
+// Set up Apollo Server
+const server = new ApolloServer<{ }>({
+    typeDefs,
+    resolvers,
+    plugins: [ApolloServerPluginDrainHttpServer({httpServer})],
+});
 
-app.get('/api/health', (req: Request, response: Response) => {
-    response.send(true);
-})
+await server.start();
 
-const PORT: number = Number(process.env.PORT ?? 3000)
+app.use(
+    cors(),
+    express.json(),
+    expressMiddleware(server, undefined),
+);
 
-app.listen(PORT, () => {
-  console.log(`Server on http://localhost:${PORT}`)
-})
+httpServer.listen(4000);
+console.log(`🚀 Server ready at http://localhost:4000`);
