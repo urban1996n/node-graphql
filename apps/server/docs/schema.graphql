@@ -60,3 +60,8 @@ type Course implements Entity {
     route: Route!
     train: Train!
 }
+
+type Mutation {
+    "Create a new train with the given name"
+    createTrain(name: String!): Train!
+}
