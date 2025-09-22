@@ -12,3 +12,4 @@ generates:
         inputValue: false
         object: true
       enumsAsTypes: true
+      useIndexSignature: true
