@@ -8,27 +8,41 @@ import { readFileSync } from 'fs';
 import {join} from 'path';
 import {Resolvers} from "apps/server/src/__generated__/graphql";
 import "reflect-metadata";
-import {setupServices} from "apps/server/config/services";
 import {container} from "tsyringe";
 import {
-    GetTrainsResolver
-} from "apps/server/src/modules/trains/infrastructure/presentation/resolvers/GetTrainsResolver";
+    TrainQueryResolver
+} from "apps/server/src/modules/trains/infrastructure/presentation/resolvers/Train/TrainQueryResolver";
+import {Kernel} from "apps/server/src/modules/trains/infrastructure/kernel/Kernel";
+import * as TrainServices from "apps/server/src/modules/trains/application/services";
+import * as SharedServices from "apps/server/src/modules/shared/application/services";
+import {
+    TrainMutationResolver
+} from "apps/server/src/modules/trains/infrastructure/presentation/resolvers/Train/TrainMutationResolver";
 
-setupServices({container})
-    .then(() => {console.log('Services set up')})
-    .catch((err) => {console.error('Error setting up services', err)});
+import * as ResolverServices from "apps/server/src/modules/trains/infrastructure/presentation/resolvers/services";
 
-const trainsResolver = container.resolve<GetTrainsResolver>(GetTrainsResolver);
+const kernel = new Kernel();
+
+kernel.addLoader(TrainServices);
+kernel.addLoader(SharedServices);
+kernel.addLoader(ResolverServices);
+kernel.setup(container);
+
+await kernel.register();
+await kernel.boot();
+
+const trainQueryResolver = container.resolve<TrainQueryResolver>(TrainQueryResolver);
+const trainMutationResolver = container.resolve<TrainMutationResolver>(TrainMutationResolver);
 
 // A map of functions which return data for the schema.
 const resolvers: Resolvers = {
     Query: {
-        trains: () => trainsResolver.getTrains(),
-        train: (parent, args) => {
-            const id = args.id;
-            return trainsResolver.getTrains().then(trains => trains.find(train => train.id === id) || null);
-        }
+        trains: () => trainQueryResolver.getTrains(),
+        train: (parent, args) => trainQueryResolver.getTrain(args.id)
     },
+    Mutation: {
+        createTrain: (parent, args) => trainMutationResolver.createTrain(args.name)
+    }
 };
 
 const schemaLocation = join('docs', 'schema.graphql');
@@ -37,23 +51,11 @@ const typeDefs = readFileSync(schemaLocation, 'utf8');
 const app = express();
 const httpServer = http.createServer(app);
 
-const log = () => {
-    console.log('log');
-}
-
-const logger = {
-    debug: log,
-    info: log,
-    warn: log,
-    error: log,
-}
-
 // Set up Apollo Server
-const server = new ApolloServer({
+const server = new ApolloServer<{ }>({
     typeDefs,
     resolvers,
     plugins: [ApolloServerPluginDrainHttpServer({httpServer})],
-    logger,
 });
 
 await server.start();
@@ -61,7 +63,7 @@ await server.start();
 app.use(
     cors(),
     express.json(),
-    expressMiddleware(server),
+    expressMiddleware(server, undefined),
 );
 
 httpServer.listen(4000);
