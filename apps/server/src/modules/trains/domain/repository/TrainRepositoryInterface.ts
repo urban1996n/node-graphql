@@ -1,4 +1,4 @@
-import {EntityId} from "apps/server/src/modules/shared/valueObjects/EntityId";
+import {EntityId} from "apps/server/src/modules/shared/domain/valueObjects/EntityId";
 import {Train} from "apps/server/src/modules/trains/domain/model/Train";
 export interface TrainRepositoryInterface
 {

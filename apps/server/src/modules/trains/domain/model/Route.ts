@@ -1,5 +1,5 @@
 import {Coordinates} from "apps/server/src/modules/trains/domain/valueObjects/Coordinates";
-import {DomainIdentifierInterface} from "apps/server/src/modules/shared/valueObjects/DomainIdentifierInterface";
+import {DomainIdentifierInterface} from "apps/server/src/modules/shared/domain/valueObjects/DomainIdentifierInterface";
 
 export class Route {
     public constructor(

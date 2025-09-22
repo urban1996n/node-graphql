@@ -1,6 +1,6 @@
 import {TrainRepositoryInterface} from "apps/server/src/modules/trains/domain/repository/TrainRepositoryInterface";
 import {Train} from "apps/server/src/modules/trains/domain/model/Train";
-import {EntityId} from "apps/server/src/modules/shared/valueObjects/EntityId";
+import {EntityId} from "apps/server/src/modules/shared/domain/valueObjects/EntityId";
 import crypto from "crypto";
 
 const train1 = new Train(
