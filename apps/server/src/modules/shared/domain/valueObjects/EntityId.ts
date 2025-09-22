@@ -1,4 +1,4 @@
-import {DomainIdentifierInterface} from "apps/server/src/modules/shared/valueObjects/DomainIdentifierInterface";
+import {DomainIdentifierInterface} from "apps/server/src/modules/shared/domain/valueObjects/DomainIdentifierInterface";
 
 /**
  * Value object representing a UUID entity identifier.

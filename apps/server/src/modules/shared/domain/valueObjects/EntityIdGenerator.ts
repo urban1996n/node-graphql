@@ -1,7 +1,7 @@
-import {EntityId} from "apps/server/src/modules/shared/valueObjects/EntityId";
+import {EntityId} from "apps/server/src/modules/shared/domain/valueObjects/EntityId";
 import {
     DomainIdentifierGeneratorInterface
-} from "apps/server/src/modules/shared/valueObjects/DomainIdentifierGeneratorInterface";
+} from "apps/server/src/modules/shared/domain/valueObjects/DomainIdentifierGeneratorInterface";
 import crypto from "crypto";
 
 export class EntityIdGenerator implements DomainIdentifierGeneratorInterface
