@@ -1,4 +1,4 @@
-import {Loader} from "apps/server/src/modules/trains/infrastructure/kernel/Loader";
+import {Loader} from "apps/server/src/app/interfaces/http/kernel/Loader";
 import {DependencyContainer, container} from "tsyringe";
 
 export class Kernel {
