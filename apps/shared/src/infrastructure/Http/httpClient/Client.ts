@@ -1,6 +1,6 @@
-import {ClientInterface} from "./ClientInterface";
-import {TBody, Response} from "./http";
-import {HttpError} from "./HttpError";
+import {ClientInterface} from "src/infrastructure/Http/httpClient/ClientInterface";
+import {TBody, Response} from "src/infrastructure/Http/httpClient/http";
+import {HttpError} from "src/infrastructure/Http/httpClient/HttpError";
 
 export class Client implements ClientInterface
 {
