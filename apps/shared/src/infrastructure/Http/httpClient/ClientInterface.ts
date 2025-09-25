@@ -1,4 +1,4 @@
-import {TBody, Response} from "src/infrastructure/Http/httpClient/http";
+import {TBody, Response} from "src/infrastructure/Http/http";
 
 export interface ClientInterface
 {
