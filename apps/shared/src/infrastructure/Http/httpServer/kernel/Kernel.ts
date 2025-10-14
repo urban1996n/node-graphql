@@ -1,6 +1,6 @@
-import {LoaderInterface} from "src/infrastructure/Http/httpServer/kernel/LoaderInterface";
-import {DependencyContainer, container} from "tsyringe";
+import {DependencyContainer} from "tsyringe";
 import {KernelInterface} from "src/infrastructure/Http/httpServer/kernel/KernelInterface";
+import {LoaderInterface} from "src/infrastructure/Http/httpServer/kernel/LoaderInterface";
 
 export class Kernel implements KernelInterface {
     private container?: DependencyContainer;

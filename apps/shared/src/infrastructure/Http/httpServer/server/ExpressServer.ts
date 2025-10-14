@@ -1,11 +1,10 @@
 import express, {Express} from "express";
-import {Environment} from 'src/infrastructure/Http/httpServer/server/Environment';
+import {Environment} from './Environment';
 import {HttpServerInterface} from "src/infrastructure/Http/httpServer/server/HttpServerInterface";
-import {KernelInterface} from "src/infrastructure/Http/httpServer/kernel/KernelInterface";
 import cors from "cors";
+import {KernelInterface} from "src/infrastructure/Http/httpServer/kernel/KernelInterface";
 
-export class ExpressServer implements HttpServerInterface
-{
+export class ExpressServer implements HttpServerInterface {
     private kernel?: KernelInterface;
 
     constructor(
@@ -19,7 +18,7 @@ export class ExpressServer implements HttpServerInterface
         }
 
         this.engine.use(express.json());
-        this.engine.use(express.urlencoded({ extended: true }));
+        this.engine.use(express.urlencoded({extended: true}));
 
         process.on('SIGINT', async () => {
             console.log('Shutting down server...');

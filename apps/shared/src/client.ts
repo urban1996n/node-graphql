@@ -5,8 +5,8 @@ import {ClientInterface} from "src/infrastructure/Http/httpClient/ClientInterfac
 
 export {
     Client,
+    ClientInterface,
     HttpError,
     Response,
     TBody,
-    ClientInterface
 }

@@ -1,7 +1,7 @@
 import { defineConfig } from 'tsup'
 
-export default defineConfig({
-  entry: ['src/index.ts'],
+defineConfig({
+  entry: ['public/train_service.ts', 'public/app.ts'],
   format: ['esm'],
   target: 'node18',
   sourcemap: true,
@@ -9,4 +9,3 @@ export default defineConfig({
   dts: false,
   outDir: 'dist'
 })
-

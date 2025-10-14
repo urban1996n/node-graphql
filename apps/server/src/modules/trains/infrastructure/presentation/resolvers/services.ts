@@ -5,7 +5,7 @@ import {
 import {CreateTrainHandler} from "apps/server/src/modules/trains/application/event/createTrain/CreateTrainHandler";
 import {
     TrainQueryResolver
-} from "apps/server/src/modules/trains/infrastructure/presentation/resolvers/Train/TrainQueryResolver";
+} from "./Train/TrainQueryResolver";
 
 const onRegister = async (container: DependencyContainer): Promise<void> => {
     setTimeout(() => {}, 1000);

@@ -14,6 +14,6 @@ fi
 
 docker compose --env-file "$HERE/.env" up -d
 
-yarn install
-yarn build
-yarn start
+npm install
+npm run build
+npm run start

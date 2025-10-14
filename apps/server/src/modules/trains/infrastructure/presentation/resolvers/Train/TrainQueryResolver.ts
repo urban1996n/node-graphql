@@ -4,7 +4,7 @@ import {Train} from "apps/server/src/modules/trains/domain/model/Train";
 import {EntityId} from "apps/server/src/modules/shared/domain/valueObjects/EntityId";
 import {
     entityToGraphQLModel
-} from "apps/server/src/modules/trains/infrastructure/presentation/resolvers/Train/entityToGraphQLModel";
+} from "./entityToGraphQLModel";
 
 export class TrainQueryResolver {
     constructor(private readonly trainRepository: TrainRepositoryInterface) {

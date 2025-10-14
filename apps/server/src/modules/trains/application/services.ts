@@ -10,9 +10,7 @@ import {
 import {
     TrainQueryResolver
 } from "apps/server/src/modules/trains/infrastructure/presentation/resolvers/Train/TrainQueryResolver";
-import {
-    TrainMutationResolver
-} from "apps/server/src/modules/trains/infrastructure/presentation/resolvers/Train/TrainMutationResolver";
+
 import {CreateTrainHandler} from "apps/server/src/modules/trains/application/event/createTrain/CreateTrainHandler";
 import {TrainFactory} from "apps/server/src/modules/trains/domain/factory/TrainFactory";
 import {TrainFactoryInterface} from "apps/server/src/modules/trains/domain/factory/TrainFactoryInterface";

@@ -1,4 +1,4 @@
-import {DomainEventEmitterInterface} from "apps/server/src/modules/shared/domain/eventSourcing/DomainEventEmitterInterface";
+import {DomainEventEmitterInterface} from "apps/server/src/modules/shared/domain/eventSourcing/Emitter/DomainEventEmitterInterface";
 import {Command} from "apps/server/src/modules/trains/application/event/createTrain/Command";
 import {TrainFactoryInterface} from "apps/server/src/modules/trains/domain/factory/TrainFactoryInterface";
 import {Train} from "apps/server/src/modules/trains/domain/model/Train";
